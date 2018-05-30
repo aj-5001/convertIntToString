@@ -9,6 +9,7 @@ namespace convertIntToString
     public class IntToString
     {
         static string[] ones = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
+        static string[] teens = { "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
         static string[] tens = { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
         static string[] hundreds = { "Hundred", "Thousand", "Million" };
         static int numberInput = 0;
@@ -16,16 +17,16 @@ namespace convertIntToString
 
         static void Main()
         {
-            bool checkTrue = false; 
+            bool checkTrue = false;
 
-            Console.Write("Enter any number up to a Million's place: ");
-            while (checkTrue == false){
+            Console.Write("Enter any number up to a Hundreds place: ");
+            while (checkTrue == false) {
                 try
                 {
                     numberInput = Convert.ToInt32(Console.ReadLine());
                     checkTrue = true;
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("Exception Caught, reloading question..");
                     Console.Write("Enter a Number: ");
@@ -34,13 +35,13 @@ namespace convertIntToString
             }
 
             int[] output = listifyNumber(numberInput);
-            
-           
+
+
             finalNumber = checkHundreds(output) + " " + checkRest(output);
             Console.WriteLine(finalNumber);
             Console.WriteLine("type anything to leave..");
             Console.ReadKey();
-            
+
         }
 
         static public int[] listifyNumber(int number)
@@ -59,36 +60,36 @@ namespace convertIntToString
             return input;
         }
 
-        static public string getFirstNumber(int[] output)
-        {
-            Console.WriteLine(ones[output[0] - 1]);
-            return ones[output[0] - 1]; // prints out the first 
-        }
+    
         static public string checkHundreds(int[] output)
         {
             var strInput = numberInput.ToString();
-            if (strInput.Length >= 3)
+            if (strInput.Length == 2)
             {
-                return getFirstNumber(output) + " Hundred";
+                return ones[output[0] -1] + " " + hundreds[0]; // returns "hundred"
             }
             else
             {
-                return getFirstNumber(output);
+                return null; // must be a teen or a ones
             }
-            
+
         }
         static public string checkRest(int[] output)
         {
-            if (output[1] > 1) //checks the second digit to see if it's in the teens
+            var strInput = numberInput.ToString();
+            if (strInput == "10")
             {
-                // not a teen
+                return ones[9];
             }
-            else
+            if (strInput.Length >= 1 || strInput.Length < 2 && strInput != "10")
             {
-                //return a teen
+                return teens[output[0] - 1];
             }
-            return tens[output[1] - 2];
-            
+            if (strInput.Length == 1 && output[0] != 1)
+            {
+                return tens[output[0] - 1] + " " + ones[output[1] - 1];
+            }
+            return null;
         }
 
     }
